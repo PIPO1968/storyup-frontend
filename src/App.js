@@ -61,10 +61,24 @@ function App() {
                                 <p style={{ color: '#2d3a4a' }}>Accede a recursos educativos, juegos y actividades para aprender de forma divertida.</p>
                             </div>
                         </div>
-                        <Register />
+                        <div style={{ display: 'flex', gap: 40, alignItems: 'center', justifyContent: 'center', marginBottom: 40 }}>
+                            <div style={{ flex: 1, minWidth: 320, maxWidth: 420 }}>
+                                <Register />
+                            </div>
+                            <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+                                <img src="/logo-grande.png.png" alt="Logo grande" style={{ maxWidth: 320, width: '100%', borderRadius: 18, boxShadow: '0 4px 24px #2222' }} />
+                            </div>
+                        </div>
                     </>
                 ) : page === 'register' ? (
-                    <Register />
+                    <div style={{ display: 'flex', gap: 40, alignItems: 'center', justifyContent: 'center', marginBottom: 40 }}>
+                        <div style={{ flex: 1, minWidth: 320, maxWidth: 420 }}>
+                            <Register />
+                        </div>
+                        <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+                            <img src="/logo-grande.png.png" alt="Logo grande" style={{ maxWidth: 320, width: '100%', borderRadius: 18, boxShadow: '0 4px 24px #2222' }} />
+                        </div>
+                    </div>
                 ) : null}
             </div>
         </div>
