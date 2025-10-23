@@ -3,7 +3,7 @@ import React from 'react';
 
 
 import './App.css';
-import Register from './Register';
+import AuthPage from './AuthPage';
 import HeaderExtras from './HeaderExtras';
 
 
@@ -11,6 +11,7 @@ import { useState } from 'react';
 
 function App() {
     const [page, setPage] = useState('home');
+    const [user, setUser] = useState(null);
     return (
         <div className="main-container">
             {/* Header fijo */}
@@ -33,53 +34,22 @@ function App() {
             )}
             {/* Contenido de la página */}
             <div className="page-content">
-                {page === 'home' ? (
-                    <>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 32, marginBottom: 40 }}>
-                            <div className="block" style={{ background: 'linear-gradient(135deg,#e3f0ff 60%,#f9fafc 100%)', border: '1.5px solid #b3c6e6' }}>
-                                <h3 style={{ color: '#1a237e', marginBottom: 8 }}>Historias</h3>
-                                <p style={{ color: '#2d3a4a' }}>Descubre y lee historias creadas por los usuarios de la comunidad escolar.</p>
-                            </div>
-                            <div className="block" style={{ background: 'linear-gradient(135deg,#fffbe3 60%,#f9fafc 100%)', border: '1.5px solid #e6dcb3' }}>
-                                <h3 style={{ color: '#b28900', marginBottom: 8 }}>Noticias</h3>
-                                <p style={{ color: '#4a3a2d' }}>Infórmate de las novedades, eventos y noticias relevantes de tu centro y otros.</p>
-                            </div>
-                            <div className="block" style={{ background: 'linear-gradient(135deg,#ffe3e3 60%,#f9fafc 100%)', border: '1.5px solid #e6b3b3' }}>
-                                <h3 style={{ color: '#b21a1a', marginBottom: 8 }}>Concursos</h3>
-                                <p style={{ color: '#4a2d2d' }}>Participa en concursos de escritura, creatividad y retos escolares para ganar trofeos.</p>
-                            </div>
-                            <div className="block" style={{ background: 'linear-gradient(135deg,#e3ffe3 60%,#f9fafc 100%)', border: '1.5px solid #b3e6b3' }}>
-                                <h3 style={{ color: '#1ab21a', marginBottom: 8 }}>Estadísticas</h3>
-                                <p style={{ color: '#2d4a2d' }}>Consulta estadísticas de participación, historias publicadas y logros de la comunidad.</p>
-                            </div>
-                            <div className="block" style={{ background: 'linear-gradient(135deg,#e3e3ff 60%,#f9fafc 100%)', border: '1.5px solid #b3b3e6' }}>
-                                <h3 style={{ color: '#1a1ab2', marginBottom: 8 }}>Trofeos</h3>
-                                <p style={{ color: '#2d2d4a' }}>Visualiza los trofeos y reconocimientos obtenidos por los usuarios y clases.</p>
-                            </div>
-                            <div className="block" style={{ background: 'linear-gradient(135deg,#e3f9ff 60%,#f9fafc 100%)', border: '1.5px solid #b3e6e6' }}>
-                                <h3 style={{ color: '#1a7eb2', marginBottom: 8 }}>Aprende con Pipo</h3>
-                                <p style={{ color: '#2d3a4a' }}>Accede a recursos educativos, juegos y actividades para aprender de forma divertida.</p>
-                            </div>
-                        </div>
-                        <div style={{ display: 'flex', gap: 40, alignItems: 'center', justifyContent: 'center', marginBottom: 40 }}>
-                            <div style={{ flex: 1, minWidth: 320, maxWidth: 420 }}>
-                                <Register />
-                            </div>
-                            <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-                                <img src="/logo-grande.png.png" alt="Logo grande" style={{ maxWidth: 320, width: '100%', borderRadius: 18, boxShadow: '0 4px 24px #2222' }} />
-                            </div>
-                        </div>
-                    </>
-                ) : page === 'register' ? (
+                {!user ? (
                     <div style={{ display: 'flex', gap: 40, alignItems: 'center', justifyContent: 'center', marginBottom: 40 }}>
                         <div style={{ flex: 1, minWidth: 320, maxWidth: 420 }}>
-                            <Register />
+                            <AuthPage onLogin={setUser} />
                         </div>
                         <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
                             <img src="/logo-grande.png.png" alt="Logo grande" style={{ maxWidth: 320, width: '100%', borderRadius: 18, boxShadow: '0 4px 24px #2222' }} />
                         </div>
                     </div>
-                ) : null}
+                ) : (
+                    <div className="block" style={{ maxWidth: 500, margin: '40px auto', textAlign: 'center' }}>
+                        <h2>¡Bienvenido, {user.nick || user.email}!</h2>
+                        <p>Has iniciado sesión correctamente.</p>
+                        {/* Aquí puedes mostrar más info de perfil o navegación */}
+                    </div>
+                )}
             </div>
         </div>
 
