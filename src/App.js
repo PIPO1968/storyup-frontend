@@ -12,6 +12,21 @@ import { useState } from 'react';
 function App() {
     const [page, setPage] = useState('home');
     const [user, setUser] = useState(null);
+
+    // Refrescar datos del usuario tras login (por si el backend devuelve campos vacíos)
+    const handleLogin = (data) => {
+        // Valores por defecto para evitar campos vacíos
+        setUser({
+            nombre: data.nombre || '-',
+            apellido: data.apellido || '-',
+            nick: data.nick || '-',
+            email: data.email || '-',
+            tipoUsuario: data.tipoUsuario || '-',
+            tipoCentro: data.tipoCentro || '-',
+            nombreCentro: data.nombreCentro || '-',
+            curso: data.curso || '-',
+        });
+    };
     return (
         <div className="main-container">
             {/* Header fijo */}
@@ -37,7 +52,7 @@ function App() {
                 {!user ? (
                     <div style={{ display: 'flex', gap: 40, alignItems: 'center', justifyContent: 'center', marginBottom: 40 }}>
                         <div style={{ flex: 1, minWidth: 320, maxWidth: 420 }}>
-                            <AuthPage onLogin={setUser} />
+                            <AuthPage onLogin={handleLogin} />
                         </div>
                         <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
                             <img src="/logo-grande.png.png" alt="Logo grande" style={{ maxWidth: 320, width: '100%', borderRadius: 18, boxShadow: '0 4px 24px #2222' }} />
