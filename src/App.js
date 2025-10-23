@@ -1,7 +1,10 @@
+
 import React from 'react';
+
 
 import './App.css';
 import Register from './Register';
+import HeaderExtras from './HeaderExtras';
 
 
 import { useState } from 'react';
@@ -11,8 +14,9 @@ function App() {
     return (
         <div className="main-container">
             {/* Header fijo */}
-            <header className="header">
+            <header className="header" style={{ display: 'flex', alignItems: 'center' }}>
                 <span style={{ fontWeight: 'bold', fontSize: 22, marginLeft: 16 }}>StoryUp</span>
+                <HeaderExtras />
             </header>
             {/* Sidebar horizontal (excepto en login/registro) */}
             {page !== 'register' && (
