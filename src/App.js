@@ -45,9 +45,15 @@ function App() {
                     </div>
                 ) : (
                     <div className="block" style={{ maxWidth: 500, margin: '40px auto', textAlign: 'center' }}>
-                        <h2>¡Bienvenido, {user.nick || user.email}!</h2>
-                        <p>Has iniciado sesión correctamente.</p>
-                        {/* Aquí puedes mostrar más info de perfil o navegación */}
+                        <h2>Perfil de usuario</h2>
+                        <div style={{ textAlign: 'left', margin: '0 auto', maxWidth: 340 }}>
+                            <p><b>Nombre:</b> {user.nombre} {user.apellido}</p>
+                            <p><b>Nick:</b> {user.nick}</p>
+                            <p><b>Email:</b> {user.email}</p>
+                            <p><b>Tipo de usuario:</b> {user.tipoUsuario}</p>
+                            <p><b>Centro:</b> {user.tipoCentro} - {user.nombreCentro}</p>
+                            <p><b>Curso:</b> {user.curso}</p>
+                        </div>
                     </div>
                 )}
             </div>
