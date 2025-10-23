@@ -15,8 +15,7 @@ function App() {
         <div className="main-container">
             {/* Header fijo */}
             <header className="header" style={{ display: 'flex', alignItems: 'center' }}>
-                <img src="/favicon.ico" alt="favicon" style={{ height: 28, width: 28, marginLeft: 14, marginRight: 10, borderRadius: 6, boxShadow: '0 1px 4px #2222' }} />
-                <img src="/logo-pipo.webp" alt="Logo StoryUp" style={{ height: 44, marginRight: 18 }} />
+                <img src="/favicon.ico" alt="favicon" style={{ height: 28, width: 28, marginLeft: 14, marginRight: 18, borderRadius: 6, boxShadow: '0 1px 4px #2222' }} />
                 <HeaderExtras />
             </header>
             {/* Sidebar horizontal (excepto en login/registro) */}
