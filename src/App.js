@@ -12,21 +12,60 @@ import { useState } from 'react';
 function App() {
     const [page, setPage] = useState('home');
     const [user, setUser] = useState(null);
+    const [token, setToken] = useState(() => localStorage.getItem('token') || '');
 
-    // Refrescar datos del usuario tras login (por si el backend devuelve campos vacíos)
+    // Guardar token y usuario tras login
     const handleLogin = (data) => {
-        // Valores por defecto para evitar campos vacíos
-        setUser({
-            nombre: data.nombre || '-',
-            apellido: data.apellido || '-',
-            nick: data.nick || '-',
-            email: data.email || '-',
-            tipoUsuario: data.tipoUsuario || '-',
-            tipoCentro: data.tipoCentro || '-',
-            nombreCentro: data.nombreCentro || '-',
-            curso: data.curso || '-',
-        });
+        if (data.token && data.user) {
+            setToken(data.token);
+            localStorage.setItem('token', data.token);
+            setUser({
+                nombre: data.user.nombre || '-',
+                apellido: data.user.apellido || '-',
+                nick: data.user.nick || '-',
+                email: data.user.email || '-',
+                tipoUsuario: data.user.tipoUsuario || '-',
+                tipoCentro: data.user.tipoCentro || '-',
+                nombreCentro: data.user.nombreCentro || '-',
+                curso: data.user.curso || '-',
+            });
+        }
     };
+
+    // Validar sesión al cargar la app
+    React.useEffect(() => {
+        const fetchUser = async () => {
+            if (token) {
+                try {
+                    const res = await fetch(process.env.REACT_APP_API_URL + '/me', {
+                        headers: { 'Authorization': 'Bearer ' + token }
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        setUser({
+                            nombre: data.nombre || '-',
+                            apellido: data.apellido || '-',
+                            nick: data.nick || '-',
+                            email: data.email || '-',
+                            tipoUsuario: data.tipoUsuario || '-',
+                            tipoCentro: data.tipoCentro || '-',
+                            nombreCentro: data.nombreCentro || '-',
+                            curso: data.curso || '-',
+                        });
+                    } else {
+                        setUser(null);
+                        setToken('');
+                        localStorage.removeItem('token');
+                    }
+                } catch {
+                    setUser(null);
+                    setToken('');
+                    localStorage.removeItem('token');
+                }
+            }
+        };
+        fetchUser();
+    }, [token]);
     return (
         <div className="main-container">
             {/* Header fijo */}
