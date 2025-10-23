@@ -15,9 +15,10 @@ function App() {
         <div className="main-container">
             {/* Header fijo */}
             <header className="header" style={{ display: 'flex', alignItems: 'center' }}>
-                <span style={{ fontWeight: 'bold', fontSize: 22, marginLeft: 16 }}>StoryUp</span>
+                <img src={logoPipo} alt="Logo StoryUp" style={{ height: 44, marginLeft: 18, marginRight: 18 }} />
                 <HeaderExtras />
             </header>
+            import logoPipo from '../public/logo-pipo.webp';
             {/* Sidebar horizontal (excepto en login/registro) */}
             {page !== 'register' && (
                 <nav className="sidebar">
