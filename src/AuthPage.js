@@ -4,7 +4,7 @@ const cursos = [
     '3º ESO', '4º ESO', '5º ESO', '6º ESO', '7º ESO', '8º ESO', '1º INST', '2º INST'
 ];
 
-export default function AuthPage({ onLogin }) {
+export default function AuthPage({ onLogin, goTo }) {
     const [mode, setMode] = useState('login'); // 'login' o 'register'
     const [form, setForm] = useState({
         nombre: '', apellido: '', nick: '', email: '', password: '', tipoUsuario: '', tipoCentro: '', nombreCentro: '', curso: ''
@@ -26,6 +26,7 @@ export default function AuthPage({ onLogin }) {
             if (res.ok) {
                 setMensaje('¡Login correcto!');
                 if (onLogin) onLogin(data);
+                if (goTo) goTo('profile');
             } else {
                 setError(data.error || 'Error al iniciar sesión');
             }
