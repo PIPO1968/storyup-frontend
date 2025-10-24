@@ -203,8 +203,8 @@ function App() {
                         </div>
                     </div>
                 ) : (
-                    <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'center', margin: '32px auto', width: '95vw', maxWidth: '95vw', minHeight: 320 }}>
-                        <div className="block" style={{ flex: 1, textAlign: 'left', padding: '48px 80px 48px 0', minWidth: 400, background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221' }}>
+                    <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'center', margin: '32px auto', width: '95vw', maxWidth: '95vw', minHeight: 320, gap: '32px' }}>
+                        <div className="block" style={{ flex: 1, textAlign: 'left', padding: '48px 40px', minWidth: 400, background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221' }}>
                             <h2>Datos personales</h2>
                             <div style={{ maxWidth: 340 }}>
                                 <p><b>Nombre:</b> {user.nombre ? user.nombre : '-'}</p>
@@ -215,8 +215,7 @@ function App() {
                                 <p><b>Centro:</b> {user.tipoCentro ? user.tipoCentro : '-'} - {user.nombreCentro ? user.nombreCentro : '-'}</p>
                             </div>
                         </div>
-                        <div style={{ width: 2, background: 'rgba(0,0,0,0.10)', margin: 0 }} />
-                        <div className="block" style={{ flex: 1, textAlign: 'left', padding: '48px 0 48px 80px', minWidth: 400, background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221' }}>
+                        <div className="block" style={{ flex: 1, textAlign: 'left', padding: '48px 40px', minWidth: 400, background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221' }}>
                             <h2>Trofeos conseguidos</h2>
                             <div style={{ maxWidth: 340 }}>
                                 <p>No tienes trofeos aún.</p>
