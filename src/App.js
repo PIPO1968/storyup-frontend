@@ -24,7 +24,6 @@ async function sendEvent(token, type, data) {
 function App() {
     const [page, setPage] = useState('home');
     const [user, setUser] = useState(null);
-    const [editProfile, setEditProfile] = useState(false);
     const [profileForm, setProfileForm] = useState({ nombre: '', nick: '', curso: '' });
     const [token, setToken] = useState('');
 
@@ -64,44 +63,42 @@ function App() {
                     });
                     if (res.ok) {
                         const data = await res.json();
-                        setUser({
-                            nombre: data.nombre || '-',
-                            apellido: data.apellido || '-',
-                            nick: data.nick || '-',
-                            email: data.email || '-',
-                            tipoUsuario: data.tipoUsuario || '-',
-                            tipoCentro: data.tipoCentro || '-',
-                            nombreCentro: data.nombreCentro || '-',
-                            curso: data.curso || '-',
-                        });
-                        setProfileForm({
-                            nombre: data.nombre || '',
-                            nick: data.nick || '',
-                            curso: data.curso || ''
-                        });
-                    } else {
-                        setUser(null);
-                        setToken('');
-                    }
-                } catch {
-                    setUser(null);
-                    setToken('');
-                }
-            }
-        };
-        fetchUser();
-    }, [token]);
-
-    return (
-        <div className="main-container">
-            {/* Header fijo */}
-            <header className="header" style={{ display: 'flex', alignItems: 'center' }}>
-                <img src="/favicon.ico" alt="favicon" style={{ height: 28, width: 28, marginLeft: 14, marginRight: 18, borderRadius: 6, boxShadow: '0 1px 4px #2222' }} />
-                <HeaderExtras />
-                {user && (
-                    <button onClick={() => {
-                        setUser(null);
-                        setToken('');
+                        useEffect(() => {
+                            const fetchUser = async () => {
+                                if (token) {
+                                    try {
+                                        const res = await fetch(process.env.REACT_APP_API_URL + '/me', {
+                                            headers: { 'Authorization': 'Bearer ' + token }
+                                        });
+                                        if (res.ok) {
+                                            const data = await res.json();
+                                            setUser({
+                                                nombre: data.nombre || '-',
+                                                apellido: data.apellido || '-',
+                                                nick: data.nick || '-',
+                                                email: data.email || '-',
+                                                tipoUsuario: data.tipoUsuario || '-',
+                                                tipoCentro: data.tipoCentro || '-',
+                                                nombreCentro: data.nombreCentro || '-',
+                                                curso: data.curso || '-',
+                                            });
+                                            setProfileForm({
+                                                nombre: data.nombre || '',
+                                                nick: data.nick || '',
+                                                curso: data.curso || ''
+                                            });
+                                        } else {
+                                            setUser(null);
+                                            setToken('');
+                                        }
+                                    } catch {
+                                        setUser(null);
+                                        setToken('');
+                                    }
+                                }
+                            };
+                            fetchUser();
+                        }, [token]);
                         goTo('home');
                     }} style={{ marginLeft: 'auto', marginRight: 16, padding: '6px 16px', borderRadius: 6, border: 'none', background: '#e74c3c', color: 'white', fontWeight: 600, cursor: 'pointer' }}>
                         Cerrar sesión
@@ -135,37 +132,48 @@ function App() {
                     <div className="block" style={{ maxWidth: 500, margin: '40px auto', textAlign: 'center' }}>
                         <h2>Perfil de usuario</h2>
                         <div style={{ textAlign: 'left', margin: '0 auto', maxWidth: 340 }}>
-                            {editProfile ? (
-                                <form onSubmit={async e => {
-                                    e.preventDefault();
-                                    await fetch(process.env.REACT_APP_API_URL + '/me', {
-                                        method: 'PUT',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                            'Authorization': 'Bearer ' + token
-                                        },
-                                        body: JSON.stringify(profileForm)
-                                    });
-                                    setUser({ ...user, ...profileForm });
-                                    setEditProfile(false);
-                                }}>
-                                    <label><b>Nombre:</b> <input name="nombre" value={profileForm.nombre} onChange={e => setProfileForm(f => ({ ...f, nombre: e.target.value }))} /></label><br />
-                                    <label><b>Nick:</b> <input name="nick" value={profileForm.nick} onChange={e => setProfileForm(f => ({ ...f, nick: e.target.value }))} /></label><br />
-                                    <label><b>Curso:</b> <input name="curso" value={profileForm.curso} onChange={e => setProfileForm(f => ({ ...f, curso: e.target.value }))} /></label><br />
-                                    <button type="submit">Guardar</button>
-                                    <button type="button" onClick={() => setEditProfile(false)} style={{ marginLeft: 8 }}>Cancelar</button>
-                                </form>
-                            ) : (
-                                <>
-                                    <p><b>Nombre:</b> {user.nombre ? user.nombre : '-'} {user.apellido ? user.apellido : '-'}</p>
-                                    <p><b>Nick:</b> {user.nick ? user.nick : '-'}</p>
-                                    <p><b>Email:</b> {user.email ? user.email : '-'}</p>
-                                    <p><b>Tipo de usuario:</b> {user.tipoUsuario ? user.tipoUsuario : '-'}</p>
-                                    <p><b>Centro:</b> {user.tipoCentro ? user.tipoCentro : '-'} - {user.nombreCentro ? user.nombreCentro : '-'}</p>
-                                    <p><b>Curso:</b> {user.curso ? user.curso : '-'}</p>
-                                    <button onClick={() => setEditProfile(true)}>Editar perfil</button>
-                                </>
-                            )}
+                            <label><b>Nombre:</b> <input name="nombre" value={profileForm.nombre} onChange={async e => {
+                                const value = e.target.value;
+                                setProfileForm(f => ({ ...f, nombre: value }));
+                                await fetch(process.env.REACT_APP_API_URL + '/me', {
+                                    method: 'PUT',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': 'Bearer ' + token
+                                    },
+                                    body: JSON.stringify({ ...profileForm, nombre: value })
+                                });
+                                setUser(u => ({ ...u, nombre: value }));
+                            }} /></label><br />
+                            <label><b>Nick:</b> <input name="nick" value={profileForm.nick} onChange={async e => {
+                                const value = e.target.value;
+                                setProfileForm(f => ({ ...f, nick: value }));
+                                await fetch(process.env.REACT_APP_API_URL + '/me', {
+                                    method: 'PUT',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': 'Bearer ' + token
+                                    },
+                                    body: JSON.stringify({ ...profileForm, nick: value })
+                                });
+                                setUser(u => ({ ...u, nick: value }));
+                            }} /></label><br />
+                            <label><b>Curso:</b> <input name="curso" value={profileForm.curso} onChange={async e => {
+                                const value = e.target.value;
+                                setProfileForm(f => ({ ...f, curso: value }));
+                                await fetch(process.env.REACT_APP_API_URL + '/me', {
+                                    method: 'PUT',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': 'Bearer ' + token
+                                    },
+                                    body: JSON.stringify({ ...profileForm, curso: value })
+                                });
+                                setUser(u => ({ ...u, curso: value }));
+                            }} /></label><br />
+                            <p><b>Email:</b> {user.email ? user.email : '-'}</p>
+                            <p><b>Tipo de usuario:</b> {user.tipoUsuario ? user.tipoUsuario : '-'}</p>
+                            <p><b>Centro:</b> {user.tipoCentro ? user.tipoCentro : '-'} - {user.nombreCentro ? user.nombreCentro : '-'}</p>
                         </div>
                     </div>
                 )}

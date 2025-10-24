@@ -13,10 +13,14 @@ export default function HeaderExtras() {
     const [fecha, setFecha] = useState(new Date());
     const [idioma, setIdioma] = useState('es');
 
-    // Simulación de usuarios y online (luego se conectará a backend)
+    // Obtener usuarios inscritos y online reales desde el backend
     useEffect(() => {
-        setUsuarios(42); // Simulado
-        setOnline(7);   // Simulado
+        fetch(process.env.REACT_APP_API_URL + '/stats/users')
+            .then(res => res.json())
+            .then(data => {
+                setUsuarios(data.total || 0);
+                setOnline(data.online || 0);
+            });
     }, []);
 
     // Actualizar reloj cada segundo
