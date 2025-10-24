@@ -26,9 +26,50 @@ function getCookie(name) {
 
 function App() {
     const [user, setUser] = useState(null);
+    const [token, setToken] = useState(getCookie('token') || '');
     const [sessionExpired, setSessionExpired] = useState(false);
     const goTo = () => { };
+
+    // Recuperar usuario automáticamente si hay token
+    useEffect(() => {
+        const fetchUser = async () => {
+            if (token) {
+                try {
+                    const res = await fetch(process.env.REACT_APP_API_URL + '/me', {
+                        headers: { 'Authorization': 'Bearer ' + token }
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        setUser({
+                            nombre: data.nombre || '-',
+                            nick: data.nick || '-',
+                            curso: data.curso || '-',
+                            email: data.email || '-',
+                            tipoUsuario: data.tipoUsuario || '-',
+                            tipoCentro: data.tipoCentro || '-',
+                            nombreCentro: data.nombreCentro || '-'
+                        });
+                        setSessionExpired(false);
+                    } else if (res.status === 401 || res.status === 403) {
+                        setUser(null);
+                        setToken('');
+                        setCookie('token', '', -1);
+                        setSessionExpired(true);
+                    }
+                } catch {
+                    // Error de red, no expulsar al usuario
+                }
+            }
+        };
+        fetchUser();
+    }, [token]);
+
+    // Al hacer login, guardar token y usuario
     const handleLogin = (userData) => {
+        if (userData.token) {
+            setToken(userData.token);
+            setCookie('token', userData.token, 7);
+        }
         setUser({
             nombre: userData.nombre || '-',
             nick: userData.nick || '-',
