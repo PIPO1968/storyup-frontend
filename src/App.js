@@ -70,7 +70,11 @@ function App() {
     const [token, setToken] = useState(getCookie('token') || '');
 
     // Navegación global
-    const goTo = (newPage) => setPage(newPage);
+    const goTo = (newPage) => {
+        setPage(newPage);
+        // Enviar evento de actividad cada vez que navega
+        sendEvent(token, 'navigate', { page: newPage });
+    };
 
     // Guardar token y usuario tras login y navegar a perfil
     const handleLogin = (data) => {
@@ -122,6 +126,8 @@ function App() {
                             nick: data.nick || '',
                             curso: data.curso || ''
                         });
+                        // Enviar evento de actividad al cargar perfil
+                        sendEvent(token, 'active', { page });
                         setSessionExpired(false);
                     } else if (res.status === 401 || res.status === 403) {
                         setUser(null);
@@ -190,45 +196,9 @@ function App() {
                     <div className="block" style={{ maxWidth: 500, margin: '40px auto', textAlign: 'center' }}>
                         <h2>Perfil de usuario</h2>
                         <div style={{ textAlign: 'left', margin: '0 auto', maxWidth: 340 }}>
-                            <label><b>Nombre:</b> <input name="nombre" value={profileForm.nombre} onChange={async e => {
-                                const value = e.target.value;
-                                setProfileForm(f => ({ ...f, nombre: value }));
-                                await fetch(process.env.REACT_APP_API_URL + '/me', {
-                                    method: 'PUT',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'Authorization': 'Bearer ' + token
-                                    },
-                                    body: JSON.stringify({ ...profileForm, nombre: value })
-                                });
-                                setUser(u => ({ ...u, nombre: value }));
-                            }} /></label><br />
-                            <label><b>Nick:</b> <input name="nick" value={profileForm.nick} onChange={async e => {
-                                const value = e.target.value;
-                                setProfileForm(f => ({ ...f, nick: value }));
-                                await fetch(process.env.REACT_APP_API_URL + '/me', {
-                                    method: 'PUT',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'Authorization': 'Bearer ' + token
-                                    },
-                                    body: JSON.stringify({ ...profileForm, nick: value })
-                                });
-                                setUser(u => ({ ...u, nick: value }));
-                            }} /></label><br />
-                            <label><b>Curso:</b> <input name="curso" value={profileForm.curso} onChange={async e => {
-                                const value = e.target.value;
-                                setProfileForm(f => ({ ...f, curso: value }));
-                                await fetch(process.env.REACT_APP_API_URL + '/me', {
-                                    method: 'PUT',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'Authorization': 'Bearer ' + token
-                                    },
-                                    body: JSON.stringify({ ...profileForm, curso: value })
-                                });
-                                setUser(u => ({ ...u, curso: value }));
-                            }} /></label><br />
+                            <p><b>Nombre:</b> {user.nombre ? user.nombre : '-'}</p>
+                            <p><b>Nick:</b> {user.nick ? user.nick : '-'}</p>
+                            <p><b>Curso:</b> {user.curso ? user.curso : '-'}</p>
                             <p><b>Email:</b> {user.email ? user.email : '-'}</p>
                             <p><b>Tipo de usuario:</b> {user.tipoUsuario ? user.tipoUsuario : '-'}</p>
                             <p><b>Centro:</b> {user.tipoCentro ? user.tipoCentro : '-'} - {user.nombreCentro ? user.nombreCentro : '-'}</p>
