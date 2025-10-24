@@ -176,7 +176,7 @@ function App() {
             </header>
             {/* Sidebar: mostrar siempre si hay usuario logueado */}
             {user && (
-                <nav className="sidebar">
+                <nav className="sidebar" style={{ maxWidth: 1200, margin: '0 auto', width: '100%', display: 'flex', justifyContent: 'center' }}>
                     <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('home')}>Historias</a>
                     <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('create')}>Crea tu Historia</a>
                     <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('news')}>Noticias</a>
@@ -203,8 +203,8 @@ function App() {
                         </div>
                     </div>
                 ) : (
-                    <div style={{ width: '100%', padding: '48px 0 0 0', boxSizing: 'border-box', background: 'transparent', display: 'flex', justifyContent: 'center' }}>
-                        <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'center', minHeight: 320, gap: '32px', boxSizing: 'border-box', maxWidth: 1200, width: '100%', margin: '0 auto' }}>
+                    <div style={{ width: '100%', padding: '48px 0 0 0', boxSizing: 'border-box', background: 'transparent' }}>
+                        <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'center', minHeight: 320, gap: '32px', boxSizing: 'border-box', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
                             <div className="block" style={{ width: '520px', minWidth: 320, textAlign: 'left', padding: '48px 0 48px 24px', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
                                 <h2>Datos personales</h2>
                                 <div style={{ maxWidth: 340 }}>
