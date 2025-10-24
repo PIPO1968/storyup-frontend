@@ -216,9 +216,9 @@ function App() {
                                     <p><b>Centro:</b> {user.tipoCentro ? user.tipoCentro : '-'} - {user.nombreCentro ? user.nombreCentro : '-'}</p>
                                 </div>
                             </div>
-                            <div className="block" style={{ width: '50%', minWidth: 320, textAlign: 'left', padding: '48px 24px 48px 0', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
-                                <h2>Trofeos conseguidos</h2>
-                                <div style={{ maxWidth: 340 }}>
+                            <div className="block" style={{ width:  '50%', minWidth: 320, textAlign: 'left', padding: '48px 24px 48px 0', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
+                                <h2 style={{ textAlign: 'center' }}>Trofeos conseguidos</h2>
+                                <div style={{ maxWidth: 340, margin: '0 auto', textAlign: 'center' }}>
                                     <p>No tienes trofeos aún.</p>
                                 </div>
                             </div>
