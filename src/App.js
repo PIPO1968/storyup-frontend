@@ -27,37 +27,7 @@ import './App.css';
 import AuthPage from './AuthPage';
 import HeaderExtras from './HeaderExtras';
 
-// Refrescar token si el usuario está activo
-async function refreshToken() {
-    if (!token) return;
-    try {
-        const res = await fetch(process.env.REACT_APP_API_URL + '/refresh-token', {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            }
-        });
-        if (res.ok) {
-            const data = await res.json();
-            setToken(data.token);
-            setCookie('token', data.token, 1);
-        }
-    } catch { }
-}
-
-// Función general para enviar cualquier acción/evento
-async function sendEvent(token, type, data) {
-    if (!token) return;
-    await fetch(process.env.REACT_APP_API_URL + '/event', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-        },
-        body: JSON.stringify({ type, data })
-    });
-    await refreshToken(); // Refresca el token tras cada acción
-}
+// ...existing code...
 // Refrescar token cada 30 minutos si está activo
 useEffect(() => {
     if (!token) return;
@@ -68,6 +38,39 @@ useEffect(() => {
 }, [token]);
 
 function App() {
+    // ...existing code...
+
+    // Refrescar token si el usuario está activo
+    const refreshToken = async () => {
+        if (!token) return;
+        try {
+            const res = await fetch(process.env.REACT_APP_API_URL + '/refresh-token', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setToken(data.token);
+                setCookie('token', data.token, 1);
+            }
+        } catch { }
+    };
+
+    // Función general para enviar cualquier acción/evento
+    const sendEvent = async (token, type, data) => {
+        if (!token) return;
+        await fetch(process.env.REACT_APP_API_URL + '/event', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({ type, data })
+        });
+        await refreshToken(); // Refresca el token tras cada acción
+    };
     const [page, setPage] = useState('home');
     const [user, setUser] = useState(null);
     const [profileForm, setProfileForm] = useState({ nombre: '', nick: '', curso: '' });
