@@ -203,15 +203,23 @@ function App() {
                         </div>
                     </div>
                 ) : (
-                    <div className="block" style={{ maxWidth: 500, margin: '40px auto', textAlign: 'center' }}>
-                        <h2>Perfil de usuario</h2>
-                        <div style={{ textAlign: 'left', margin: '0 auto', maxWidth: 340 }}>
-                            <p><b>Nombre:</b> {user.nombre ? user.nombre : '-'}</p>
-                            <p><b>Nick:</b> {user.nick ? user.nick : '-'}</p>
-                            <p><b>Curso:</b> {user.curso ? user.curso : '-'}</p>
-                            <p><b>Email:</b> {user.email ? user.email : '-'}</p>
-                            <p><b>Tipo de usuario:</b> {user.tipoUsuario ? user.tipoUsuario : '-'}</p>
-                            <p><b>Centro:</b> {user.tipoCentro ? user.tipoCentro : '-'} - {user.nombreCentro ? user.nombreCentro : '-'}</p>
+                    <div style={{ display: 'flex', gap: 40, alignItems: 'flex-start', justifyContent: 'center', margin: '40px auto', maxWidth: 900 }}>
+                        <div className="block" style={{ flex: 1, minWidth: 320, maxWidth: 420, textAlign: 'left' }}>
+                            <h2>Datos personales</h2>
+                            <div style={{ maxWidth: 340 }}>
+                                <p><b>Nombre:</b> {user.nombre ? user.nombre : '-'}</p>
+                                <p><b>Nick:</b> {user.nick ? user.nick : '-'}</p>
+                                <p><b>Curso:</b> {user.curso ? user.curso : '-'}</p>
+                                <p><b>Email:</b> {user.email ? user.email : '-'}</p>
+                                <p><b>Tipo de usuario:</b> {user.tipoUsuario ? user.tipoUsuario : '-'}</p>
+                                <p><b>Centro:</b> {user.tipoCentro ? user.tipoCentro : '-'} - {user.nombreCentro ? user.nombreCentro : '-'}</p>
+                            </div>
+                        </div>
+                        <div className="block" style={{ flex: 1, minWidth: 320, maxWidth: 420, textAlign: 'left' }}>
+                            <h2>Trofeos conseguidos</h2>
+                            <div style={{ maxWidth: 340 }}>
+                                <p>No tienes trofeos aún.</p>
+                            </div>
                         </div>
                     </div>
                 )}
