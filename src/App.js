@@ -203,8 +203,8 @@ function App() {
                         </div>
                     </div>
                 ) : (
-                    <div style={{ width: '100%', padding: '48px 48px 0 48px', boxSizing: 'border-box', background: 'transparent' }}>
-                        <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', minHeight: 320, gap: '32px', boxSizing: 'border-box', width: '100%' }}>
+                    <div style={{ width: '100%', padding: '48px 48px 0 48px', boxSizing: 'border-box', background: 'transparent', display: 'flex', justifyContent: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', minHeight: 320, gap: '32px', boxSizing: 'border-box', width: '100%', maxWidth: 1400, margin: '0 auto' }}>
                             <div className="block" style={{ width: '50%', textAlign: 'left', padding: '48px 0 48px 14px', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
                                 <h2>Datos personales</h2>
                                 <div style={{ maxWidth: 340 }}>
