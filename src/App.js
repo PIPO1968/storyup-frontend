@@ -24,6 +24,8 @@ async function sendEvent(token, type, data) {
 function App() {
     const [page, setPage] = useState('home');
     const [user, setUser] = useState(null);
+    const [editProfile, setEditProfile] = useState(false);
+    const [profileForm, setProfileForm] = useState({ nombre: '', nick: '', curso: '' });
     const [token, setToken] = useState(() => localStorage.getItem('token') || '');
 
     // Navegación global
@@ -43,6 +45,11 @@ function App() {
                 tipoCentro: data.user.tipoCentro || '-',
                 nombreCentro: data.user.nombreCentro || '-',
                 curso: data.user.curso || '-',
+            });
+            setProfileForm({
+                nombre: data.user.nombre || '',
+                nick: data.user.nick || '',
+                curso: data.user.curso || ''
             });
             goTo('profile');
         }
@@ -67,6 +74,11 @@ function App() {
                             tipoCentro: data.tipoCentro || '-',
                             nombreCentro: data.nombreCentro || '-',
                             curso: data.curso || '-',
+                        });
+                        setProfileForm({
+                            nombre: data.nombre || '',
+                            nick: data.nick || '',
+                            curso: data.curso || ''
                         });
                     } else {
                         setUser(null);
@@ -117,12 +129,37 @@ function App() {
                     <div className="block" style={{ maxWidth: 500, margin: '40px auto', textAlign: 'center' }}>
                         <h2>Perfil de usuario</h2>
                         <div style={{ textAlign: 'left', margin: '0 auto', maxWidth: 340 }}>
-                            <p><b>Nombre:</b> {user.nombre ? user.nombre : '-'} {user.apellido ? user.apellido : '-'}</p>
-                            <p><b>Nick:</b> {user.nick ? user.nick : '-'}</p>
-                            <p><b>Email:</b> {user.email ? user.email : '-'}</p>
-                            <p><b>Tipo de usuario:</b> {user.tipoUsuario ? user.tipoUsuario : '-'}</p>
-                            <p><b>Centro:</b> {user.tipoCentro ? user.tipoCentro : '-'} - {user.nombreCentro ? user.nombreCentro : '-'}</p>
-                            <p><b>Curso:</b> {user.curso ? user.curso : '-'}</p>
+                            {editProfile ? (
+                                <form onSubmit={async e => {
+                                    e.preventDefault();
+                                    await fetch(process.env.REACT_APP_API_URL + '/me', {
+                                        method: 'PUT',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Authorization': 'Bearer ' + token
+                                        },
+                                        body: JSON.stringify(profileForm)
+                                    });
+                                    setUser({ ...user, ...profileForm });
+                                    setEditProfile(false);
+                                }}>
+                                    <label><b>Nombre:</b> <input name="nombre" value={profileForm.nombre} onChange={e => setProfileForm(f => ({ ...f, nombre: e.target.value }))} /></label><br />
+                                    <label><b>Nick:</b> <input name="nick" value={profileForm.nick} onChange={e => setProfileForm(f => ({ ...f, nick: e.target.value }))} /></label><br />
+                                    <label><b>Curso:</b> <input name="curso" value={profileForm.curso} onChange={e => setProfileForm(f => ({ ...f, curso: e.target.value }))} /></label><br />
+                                    <button type="submit">Guardar</button>
+                                    <button type="button" onClick={() => setEditProfile(false)} style={{ marginLeft: 8 }}>Cancelar</button>
+                                </form>
+                            ) : (
+                                <>
+                                    <p><b>Nombre:</b> {user.nombre ? user.nombre : '-'} {user.apellido ? user.apellido : '-'}</p>
+                                    <p><b>Nick:</b> {user.nick ? user.nick : '-'}</p>
+                                    <p><b>Email:</b> {user.email ? user.email : '-'}</p>
+                                    <p><b>Tipo de usuario:</b> {user.tipoUsuario ? user.tipoUsuario : '-'}</p>
+                                    <p><b>Centro:</b> {user.tipoCentro ? user.tipoCentro : '-'} - {user.nombreCentro ? user.nombreCentro : '-'}</p>
+                                    <p><b>Curso:</b> {user.curso ? user.curso : '-'}</p>
+                                    <button onClick={() => setEditProfile(true)}>Editar perfil</button>
+                                </>
+                            )}
                         </div>
                     </div>
                 )}
