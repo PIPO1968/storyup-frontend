@@ -203,22 +203,24 @@ function App() {
                         </div>
                     </div>
                 ) : (
-                    <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', marginTop: 32, minHeight: 320, gap: '32px', boxSizing: 'border-box', width: '100%' }}>
-                        <div className="block" style={{ width: 'calc(50% - 16px)', textAlign: 'left', padding: '48px 0 48px 14px', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
-                            <h2>Datos personales</h2>
-                            <div style={{ maxWidth: 340 }}>
-                                <p><b>Nombre:</b> {user.nombre ? user.nombre : '-'}</p>
-                                <p><b>Nick:</b> {user.nick ? user.nick : '-'}</p>
-                                <p><b>Curso:</b> {user.curso ? user.curso : '-'}</p>
-                                <p><b>Email:</b> {user.email ? user.email : '-'}</p>
-                                <p><b>Tipo de usuario:</b> {user.tipoUsuario ? user.tipoUsuario : '-'}</p>
-                                <p><b>Centro:</b> {user.tipoCentro ? user.tipoCentro : '-'} - {user.nombreCentro ? user.nombreCentro : '-'}</p>
+                    <div style={{ width: '100%', padding: '48px 48px 0 48px', boxSizing: 'border-box', background: 'transparent' }}>
+                        <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', minHeight: 320, gap: '32px', boxSizing: 'border-box', width: '100%' }}>
+                            <div className="block" style={{ width: '50%', textAlign: 'left', padding: '48px 0 48px 14px', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
+                                <h2>Datos personales</h2>
+                                <div style={{ maxWidth: 340 }}>
+                                    <p><b>Nombre:</b> {user.nombre ? user.nombre : '-'}</p>
+                                    <p><b>Nick:</b> {user.nick ? user.nick : '-'}</p>
+                                    <p><b>Curso:</b> {user.curso ? user.curso : '-'}</p>
+                                    <p><b>Email:</b> {user.email ? user.email : '-'}</p>
+                                    <p><b>Tipo de usuario:</b> {user.tipoUsuario ? user.tipoUsuario : '-'}</p>
+                                    <p><b>Centro:</b> {user.tipoCentro ? user.tipoCentro : '-'} - {user.nombreCentro ? user.nombreCentro : '-'}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div className="block" style={{ width: 'calc(50% - 16px)', textAlign: 'left', padding: '48px 16px 48px 0', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
-                            <h2>Trofeos conseguidos</h2>
-                            <div style={{ maxWidth: 340 }}>
-                                <p>No tienes trofeos aún.</p>
+                            <div className="block" style={{ width: '50%', textAlign: 'left', padding: '48px 16px 48px 0', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
+                                <h2>Trofeos conseguidos</h2>
+                                <div style={{ maxWidth: 340 }}>
+                                    <p>No tienes trofeos aún.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
