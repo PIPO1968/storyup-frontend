@@ -28,14 +28,7 @@ import AuthPage from './AuthPage';
 import HeaderExtras from './HeaderExtras';
 
 // ...existing code...
-// Refrescar token cada 30 minutos si está activo
-useEffect(() => {
-    if (!token) return;
-    const interval = setInterval(() => {
-        refreshToken();
-    }, 30 * 60 * 1000); // 30 minutos
-    return () => clearInterval(interval);
-}, [token]);
+// ...existing code...
 
 function App() {
     // ...existing code...
