@@ -26,7 +26,7 @@ function App() {
     const [user, setUser] = useState(null);
     const [editProfile, setEditProfile] = useState(false);
     const [profileForm, setProfileForm] = useState({ nombre: '', nick: '', curso: '' });
-    const [token, setToken] = useState(() => localStorage.getItem('token') || '');
+    const [token, setToken] = useState('');
 
     // Navegación global
     const goTo = (newPage) => setPage(newPage);
@@ -35,7 +35,6 @@ function App() {
     const handleLogin = (data) => {
         if (data.token && data.user) {
             setToken(data.token);
-            localStorage.setItem('token', data.token);
             setUser({
                 nombre: data.user.nombre || '-',
                 apellido: data.user.apellido || '-',
@@ -83,12 +82,10 @@ function App() {
                     } else {
                         setUser(null);
                         setToken('');
-                        localStorage.removeItem('token');
                     }
                 } catch {
                     setUser(null);
                     setToken('');
-                    localStorage.removeItem('token');
                 }
             }
         };
@@ -105,7 +102,6 @@ function App() {
                     <button onClick={() => {
                         setUser(null);
                         setToken('');
-                        localStorage.removeItem('token');
                         goTo('home');
                     }} style={{ marginLeft: 'auto', marginRight: 16, padding: '6px 16px', borderRadius: 6, border: 'none', background: '#e74c3c', color: 'white', fontWeight: 600, cursor: 'pointer' }}>
                         Cerrar sesión
