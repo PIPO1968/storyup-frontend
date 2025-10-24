@@ -203,9 +203,9 @@ function App() {
                         </div>
                     </div>
                 ) : (
-                    <div style={{ width: '100%', padding: '48px 0 0 0', boxSizing: 'border-box', background: 'transparent' }}>
-                        <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', minHeight: 320, gap: '32px', boxSizing: 'border-box', maxWidth: 1400, margin: '0 auto', width: '100%' }}>
-                            <div className="block" style={{ width: '50%', textAlign: 'left', padding: '48px 0 48px 14px', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
+                    <div style={{ width: '100%', padding: '48px 0 0 0', boxSizing: 'border-box', background: 'transparent', display: 'flex', justifyContent: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'center', minHeight: 320, gap: '32px', boxSizing: 'border-box', maxWidth: 1200, width: '100%', margin: '0 auto' }}>
+                            <div className="block" style={{ width: '520px', minWidth: 320, textAlign: 'left', padding: '48px 0 48px 24px', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
                                 <h2>Datos personales</h2>
                                 <div style={{ maxWidth: 340 }}>
                                     <p><b>Nombre:</b> {user.nombre ? user.nombre : '-'}</p>
@@ -216,7 +216,7 @@ function App() {
                                     <p><b>Centro:</b> {user.tipoCentro ? user.tipoCentro : '-'} - {user.nombreCentro ? user.nombreCentro : '-'}</p>
                                 </div>
                             </div>
-                            <div className="block" style={{ width: '50%', textAlign: 'left', padding: '48px 16px 48px 0', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
+                            <div className="block" style={{ width: '520px', minWidth: 320, textAlign: 'left', padding: '48px 24px 48px 0', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
                                 <h2>Trofeos conseguidos</h2>
                                 <div style={{ maxWidth: 340 }}>
                                     <p>No tienes trofeos aún.</p>
