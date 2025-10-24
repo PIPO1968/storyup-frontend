@@ -28,7 +28,17 @@ function App() {
     const [user, setUser] = useState(null);
     const [sessionExpired, setSessionExpired] = useState(false);
     const goTo = () => { };
-    const handleLogin = () => { };
+    const handleLogin = (userData) => {
+        setUser({
+            nombre: userData.nombre || '-',
+            nick: userData.nick || '-',
+            curso: userData.curso || '-',
+            email: userData.email || '-',
+            tipoUsuario: userData.tipoUsuario || '-',
+            tipoCentro: userData.tipoCentro || '-',
+            nombreCentro: userData.nombreCentro || '-'
+        });
+    };
 
     return (
         <div className="main-container" style={{ width: '100%', margin: 0, padding: 0 }}>
