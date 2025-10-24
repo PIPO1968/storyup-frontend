@@ -1,6 +1,28 @@
 
 import React, { useState, useEffect } from 'react';
 
+// Utilidad para manejar cookies
+function setCookie(name, value, days = 7) {
+    let expires = '';
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = '; expires=' + date.toUTCString();
+    }
+    document.cookie = name + '=' + (value || '') + expires + '; path=/';
+}
+
+function getCookie(name) {
+    const nameEQ = name + '=';
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
 import './App.css';
 import AuthPage from './AuthPage';
 import HeaderExtras from './HeaderExtras';
@@ -22,7 +44,7 @@ function App() {
     const [page, setPage] = useState('home');
     const [user, setUser] = useState(null);
     const [profileForm, setProfileForm] = useState({ nombre: '', nick: '', curso: '' });
-    const [token, setToken] = useState('');
+    const [token, setToken] = useState(getCookie('token') || '');
 
     // Navegación global
     const goTo = (newPage) => setPage(newPage);
@@ -31,6 +53,7 @@ function App() {
     const handleLogin = (data) => {
         if (data.token && data.user) {
             setToken(data.token);
+            setCookie('token', data.token, 7);
             setUser({
                 nombre: data.user.nombre || '-',
                 apellido: data.user.apellido || '-',
@@ -99,6 +122,7 @@ function App() {
                         onClick={() => {
                             setUser(null);
                             setToken('');
+                            setCookie('token', '', -1); // Eliminar cookie
                             goTo('home');
                         }}
                         style={{ marginLeft: 'auto', marginRight: 16, padding: '6px 16px', borderRadius: 6, border: 'none', background: '#e74c3c', color: 'white', fontWeight: 600, cursor: 'pointer' }}
