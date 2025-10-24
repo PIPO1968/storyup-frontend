@@ -155,7 +155,7 @@ function App() {
     }, [token]);
 
     return (
-        <div className="main-container">
+        <div className="main-container" style={{ width: '100%', margin: 0, padding: 0 }}>
             {/* Header fijo */}
             <header className="header" style={{ display: 'flex', alignItems: 'center' }}>
                 <img src="/favicon.ico" alt="favicon" style={{ height: 28, width: 28, marginLeft: 14, marginRight: 18, borderRadius: 6, boxShadow: '0 1px 4px #2222' }} />
@@ -203,8 +203,8 @@ function App() {
                         </div>
                     </div>
                 ) : (
-                    <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'center', marginTop: 32, minHeight: 320, gap: '32px', boxSizing: 'border-box' }}>
-                        <div className="block" style={{ flex: 1, textAlign: 'left', padding: '48px 0 48px 14px', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
+                    <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'space-between', marginTop: 32, minHeight: 320, gap: '32px', boxSizing: 'border-box', width: '100%' }}>
+                        <div className="block" style={{ width: 'calc(50% - 16px)', textAlign: 'left', padding: '48px 0 48px 14px', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
                             <h2>Datos personales</h2>
                             <div style={{ maxWidth: 340 }}>
                                 <p><b>Nombre:</b> {user.nombre ? user.nombre : '-'}</p>
@@ -215,7 +215,7 @@ function App() {
                                 <p><b>Centro:</b> {user.tipoCentro ? user.tipoCentro : '-'} - {user.nombreCentro ? user.nombreCentro : '-'}</p>
                             </div>
                         </div>
-                        <div className="block" style={{ flex: 1, textAlign: 'left', padding: '48px 16px 48px 0', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
+                        <div className="block" style={{ width: 'calc(50% - 16px)', textAlign: 'left', padding: '48px 16px 48px 0', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
                             <h2>Trofeos conseguidos</h2>
                             <div style={{ maxWidth: 340 }}>
                                 <p>No tienes trofeos aún.</p>
