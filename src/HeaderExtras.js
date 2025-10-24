@@ -37,7 +37,7 @@ export default function HeaderExtras() {
             <span style={{ marginLeft: 24, fontWeight: 500 }}>Usuarios inscritos: {usuarios}</span>
             <span style={{ marginLeft: 16, color: '#388e3c' }}>Online: {online}</span>
             <span style={{ margin: '0 auto', fontFamily: 'monospace', fontSize: 16 }}>
-                {fecha.toLocaleDateString()} {fecha.toLocaleTimeString()}
+                {fecha.toLocaleDateString()} {fecha.toLocaleTimeString([], { hour12: false })}
             </span>
             <select value={idioma} onChange={handleIdioma} style={{ marginLeft: 'auto', marginRight: 16, padding: 4, borderRadius: 6 }}>
                 {idiomas.map(i => <option key={i.code} value={i.code}>{i.label}</option>)}
