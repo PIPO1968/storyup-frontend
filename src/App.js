@@ -294,12 +294,12 @@ function App() {
                         </div>
                         <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'center', minHeight: 220, gap: '32px', boxSizing: 'border-box', width: '100%', margin: '32px auto 0 auto' }}>
                             <div className="block" style={{ width: '50%', minWidth: 320, textAlign: 'center', padding: '48px 0', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
-                                <h2>Bloque extra 1</h2>
-                                <p>Contenido del bloque extra 1.</p>
+                                <h2>Crear Noticia</h2>
+                                <p>Contenido del bloque para crear una noticia.</p>
                             </div>
                             <div className="block" style={{ width: '50%', minWidth: 320, textAlign: 'center', padding: '48px 0', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
-                                <h2>Bloque extra 2</h2>
-                                <p>Contenido del bloque extra 2.</p>
+                                <h2>Crear Concurso</h2>
+                                <p>Contenido del bloque para crear un concurso.</p>
                             </div>
                         </div>
                     </div>
