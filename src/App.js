@@ -103,6 +103,14 @@ function App() {
     // Validar sesión al cargar la app
     const [sessionExpired, setSessionExpired] = useState(false);
     useEffect(() => {
+        // Mantener usuario online enviando evento cada 30 segundos
+        useEffect(() => {
+            if (!token || !user) return;
+            const interval = setInterval(() => {
+                sendEvent(token, 'active', { page });
+            }, 30000); // 30 segundos
+            return () => clearInterval(interval);
+        }, [token, user, page]);
         const fetchUser = async () => {
             if (token) {
                 try {
