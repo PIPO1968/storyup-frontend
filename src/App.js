@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 
-
 import './App.css';
 import AuthPage from './AuthPage';
 import HeaderExtras from './HeaderExtras';
@@ -18,8 +17,6 @@ async function sendEvent(token, type, data) {
         body: JSON.stringify({ type, data })
     });
 }
-
-
 
 function App() {
     const [page, setPage] = useState('home');
@@ -63,44 +60,49 @@ function App() {
                     });
                     if (res.ok) {
                         const data = await res.json();
-                        useEffect(() => {
-                            const fetchUser = async () => {
-                                if (token) {
-                                    try {
-                                        const res = await fetch(process.env.REACT_APP_API_URL + '/me', {
-                                            headers: { 'Authorization': 'Bearer ' + token }
-                                        });
-                                        if (res.ok) {
-                                            const data = await res.json();
-                                            setUser({
-                                                nombre: data.nombre || '-',
-                                                apellido: data.apellido || '-',
-                                                nick: data.nick || '-',
-                                                email: data.email || '-',
-                                                tipoUsuario: data.tipoUsuario || '-',
-                                                tipoCentro: data.tipoCentro || '-',
-                                                nombreCentro: data.nombreCentro || '-',
-                                                curso: data.curso || '-',
-                                            });
-                                            setProfileForm({
-                                                nombre: data.nombre || '',
-                                                nick: data.nick || '',
-                                                curso: data.curso || ''
-                                            });
-                                        } else {
-                                            setUser(null);
-                                            setToken('');
-                                        }
-                                    } catch {
-                                        setUser(null);
-                                        setToken('');
-                                    }
-                                }
-                            };
-                            fetchUser();
-                        }, [token]);
-                        goTo('home');
-                    }} style={{ marginLeft: 'auto', marginRight: 16, padding: '6px 16px', borderRadius: 6, border: 'none', background: '#e74c3c', color: 'white', fontWeight: 600, cursor: 'pointer' }}>
+                        setUser({
+                            nombre: data.nombre || '-',
+                            apellido: data.apellido || '-',
+                            nick: data.nick || '-',
+                            email: data.email || '-',
+                            tipoUsuario: data.tipoUsuario || '-',
+                            tipoCentro: data.tipoCentro || '-',
+                            nombreCentro: data.nombreCentro || '-',
+                            curso: data.curso || '-',
+                        });
+                        setProfileForm({
+                            nombre: data.nombre || '',
+                            nick: data.nick || '',
+                            curso: data.curso || ''
+                        });
+                    } else {
+                        setUser(null);
+                        setToken('');
+                    }
+                } catch {
+                    setUser(null);
+                    setToken('');
+                }
+            }
+        };
+        fetchUser();
+    }, [token]);
+
+    return (
+        <div className="main-container">
+            {/* Header fijo */}
+            <header className="header" style={{ display: 'flex', alignItems: 'center' }}>
+                <img src="/favicon.ico" alt="favicon" style={{ height: 28, width: 28, marginLeft: 14, marginRight: 18, borderRadius: 6, boxShadow: '0 1px 4px #2222' }} />
+                <HeaderExtras />
+                {user && (
+                    <button
+                        onClick={() => {
+                            setUser(null);
+                            setToken('');
+                            goTo('home');
+                        }}
+                        style={{ marginLeft: 'auto', marginRight: 16, padding: '6px 16px', borderRadius: 6, border: 'none', background: '#e74c3c', color: 'white', fontWeight: 600, cursor: 'pointer' }}
+                    >
                         Cerrar sesión
                     </button>
                 )}
