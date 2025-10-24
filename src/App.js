@@ -27,6 +27,24 @@ import './App.css';
 import AuthPage from './AuthPage';
 import HeaderExtras from './HeaderExtras';
 
+// Refrescar token si el usuario está activo
+async function refreshToken() {
+    if (!token) return;
+    try {
+        const res = await fetch(process.env.REACT_APP_API_URL + '/refresh-token', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        });
+        if (res.ok) {
+            const data = await res.json();
+            setToken(data.token);
+            setCookie('token', data.token, 1);
+        }
+    } catch { }
+}
+
 // Función general para enviar cualquier acción/evento
 async function sendEvent(token, type, data) {
     if (!token) return;
@@ -38,7 +56,16 @@ async function sendEvent(token, type, data) {
         },
         body: JSON.stringify({ type, data })
     });
+    await refreshToken(); // Refresca el token tras cada acción
 }
+// Refrescar token cada 30 minutos si está activo
+useEffect(() => {
+    if (!token) return;
+    const interval = setInterval(() => {
+        refreshToken();
+    }, 30 * 60 * 1000); // 30 minutos
+    return () => clearInterval(interval);
+}, [token]);
 
 function App() {
     const [page, setPage] = useState('home');
@@ -74,6 +101,7 @@ function App() {
     };
 
     // Validar sesión al cargar la app
+    const [sessionExpired, setSessionExpired] = useState(false);
     useEffect(() => {
         const fetchUser = async () => {
             if (token) {
@@ -98,13 +126,16 @@ function App() {
                             nick: data.nick || '',
                             curso: data.curso || ''
                         });
-                    } else {
+                        setSessionExpired(false);
+                    } else if (res.status === 401 || res.status === 403) {
                         setUser(null);
                         setToken('');
+                        setCookie('token', '', -1);
+                        setSessionExpired(true);
                     }
+                    // Si es otro error, no expulsar al usuario
                 } catch {
-                    setUser(null);
-                    setToken('');
+                    // Error de red, no expulsar al usuario
                 }
             }
         };
@@ -148,6 +179,11 @@ function App() {
                 {!user ? (
                     <div style={{ display: 'flex', gap: 40, alignItems: 'center', justifyContent: 'center', marginBottom: 40 }}>
                         <div style={{ flex: 1, minWidth: 320, maxWidth: 420 }}>
+                            {sessionExpired && (
+                                <div style={{ color: 'red', marginBottom: 12, fontWeight: 600 }}>
+                                    Tu sesión ha expirado. Por favor, inicia sesión de nuevo.
+                                </div>
+                            )}
                             <AuthPage onLogin={handleLogin} goTo={goTo} />
                         </div>
                         <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
