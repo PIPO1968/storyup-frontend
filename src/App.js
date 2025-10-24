@@ -123,10 +123,6 @@ function App() {
                             <p><b>Tipo de usuario:</b> {user.tipoUsuario ? user.tipoUsuario : '-'}</p>
                             <p><b>Centro:</b> {user.tipoCentro ? user.tipoCentro : '-'} - {user.nombreCentro ? user.nombreCentro : '-'}</p>
                             <p><b>Curso:</b> {user.curso ? user.curso : '-'}</p>
-                            {/* Ejemplo: botón para probar el guardado de una acción genérica */}
-                            <button onClick={() => sendEvent(token, 'test', { mensaje: 'Esto es un evento de prueba' })}>
-                                Probar evento genérico
-                            </button>
                         </div>
                     </div>
                 )}
