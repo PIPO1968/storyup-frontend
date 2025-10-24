@@ -203,7 +203,7 @@ function App() {
                         </div>
                     </div>
                 ) : (
-                    <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'center', margin: '32px auto', width: '95vw', maxWidth: '95vw', minHeight: 320, gap: '32px' }}>
+                    <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'center', margin: '32px auto 0 auto', width: '95vw', maxWidth: '95vw', minHeight: 320, gap: '32px' }}>
                         <div className="block" style={{ flex: 1, textAlign: 'left', padding: '48px 40px', minWidth: 400, background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221' }}>
                             <h2>Datos personales</h2>
                             <div style={{ maxWidth: 340 }}>
