@@ -14,9 +14,10 @@ body {
     background: #f9fafc;
     border-radius: 14px;
     box-shadow: 0 4px 16px rgba(30, 60, 90, 0.07);
-    padding: 28px 28px 20px 28px;
+    padding: 28px 0 20px 0;
     margin-bottom: 28px;
     border: 1px solid #e3e8f0;
+    /* El max-width se gestiona en el layout, no aquí */
 }
 
 /* Header fijo */
@@ -63,4 +64,5 @@ body {
 
 .page-content {
     margin-top: 124px;
+    /* El max-width y centrado se gestiona en el layout principal */
 }
