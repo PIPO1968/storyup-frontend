@@ -224,9 +224,18 @@ function App() {
                             </div>
                         </div>
                         <div className="block" style={{ width: 'calc(100% - 16px)', margin: '32px 0 0 auto', padding: '48px 32px', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box', minWidth: 320, maxWidth: 1400 }}>
-                            <h2 style={{ textAlign: 'center' }}>Bloque inferior</h2>
-                            <div style={{ textAlign: 'center' }}>
-                                <p>Este es el bloque inferior, ocupa el ancho de los dos bloques superiores y tiene la misma separación lateral.</p>
+                            <h2 style={{ textAlign: 'center' }}>Chat</h2>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+                                <div style={{ width: '100%', maxWidth: 700, height: 260, background: '#f3f6fa', borderRadius: 12, marginBottom: 24, overflowY: 'auto', padding: 16, boxShadow: '0 1px 6px #2221' }}>
+                                    {/* Aquí se mostrarán los mensajes del chat */}
+                                    <div style={{ color: '#888', textAlign: 'center', marginTop: 80 }}>
+                                        No hay mensajes aún.
+                                    </div>
+                                </div>
+                                <form style={{ display: 'flex', width: '100%', maxWidth: 700 }} onSubmit={e => e.preventDefault()}>
+                                    <input type="text" placeholder="Escribe tu mensaje..." style={{ flex: 1, padding: '12px 16px', borderRadius: 8, border: '1px solid #dbe2ea', fontSize: 16, marginRight: 12 }} />
+                                    <button type="submit" style={{ padding: '12px 24px', borderRadius: 8, border: 'none', background: '#3949ab', color: '#fff', fontWeight: 600, fontSize: 16, cursor: 'pointer' }}>Enviar</button>
+                                </form>
                             </div>
                         </div>
                     </div>
