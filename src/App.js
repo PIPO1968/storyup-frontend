@@ -29,8 +29,8 @@ function App() {
     // Simulación para evitar errores:
     const [user, setUser] = useState(null);
     const [sessionExpired, setSessionExpired] = useState(false);
-    const goTo = () => {};
-    const handleLogin = () => {};
+    const goTo = () => { };
+    const handleLogin = () => { };
 
     return (
         <div className="main-container" style={{ width: '100%', margin: 0, padding: 0 }}>
@@ -109,18 +109,7 @@ function App() {
     );
 }
 
-export default App;
-
-// Validar sesión al cargar la app
-const [sessionExpired, setSessionExpired] = useState(false);
-// Mantener usuario online enviando evento cada 30 segundos
-useEffect(() => {
-    if (!token || !user) return;
-    const interval = setInterval(() => {
-        sendEvent(token, 'active', { page });
-    }, 30000); // 30 segundos
-    return () => clearInterval(interval);
-}, [token, user, page]);
+// Mover hooks y lógica dentro de la función App
 
 // Validar sesión al cargar la app y enviar evento al cargar perfil
 useEffect(() => {
@@ -250,23 +239,20 @@ return (
                         </div>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'center', minHeight: 220, gap: '32px', boxSizing: 'border-box', width: '100%', margin: '32px auto 0 auto' }}>
-                        <>
-                            <div className="block" style={{ width: '50%', minWidth: 320, textAlign: 'center', padding: '48px 0', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
-                                <h2>Crear Noticia</h2>
-                                <p>Contenido del bloque para crear una noticia.</p>
-                            </div>
-                            <div className="block" style={{ width: '50%', minWidth: 320, textAlign: 'center', padding: '48px 0', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
-                                <h2>Crear Concurso</h2>
-                                <p>Contenido del bloque para crear un concurso.</p>
-                            </div>
-                        </>
+                        <div className="block" style={{ width: '50%', minWidth: 320, textAlign: 'center', padding: '48px 0', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
+                            <h2>Crear Noticia</h2>
+                            <p>Contenido del bloque para crear una noticia.</p>
+                        </div>
+                        <div className="block" style={{ width: '50%', minWidth: 320, textAlign: 'center', padding: '48px 0', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
+                            <h2>Crear Concurso</h2>
+                            <p>Contenido del bloque para crear un concurso.</p>
+                        </div>
                     </div>
                 </div>
-                    </div>
-                )}
+            </div>
+        )}
     </div>
-        </div >
-    );
+);
 }
 
 export default App;
