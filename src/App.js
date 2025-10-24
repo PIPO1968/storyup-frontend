@@ -102,15 +102,17 @@ function App() {
 
     // Validar sesión al cargar la app
     const [sessionExpired, setSessionExpired] = useState(false);
+    // Mantener usuario online enviando evento cada 30 segundos
     useEffect(() => {
-        // Mantener usuario online enviando evento cada 30 segundos
-        useEffect(() => {
-            if (!token || !user) return;
-            const interval = setInterval(() => {
-                sendEvent(token, 'active', { page });
-            }, 30000); // 30 segundos
-            return () => clearInterval(interval);
-        }, [token, user, page]);
+        if (!token || !user) return;
+        const interval = setInterval(() => {
+            sendEvent(token, 'active', { page });
+        }, 30000); // 30 segundos
+        return () => clearInterval(interval);
+    }, [token, user, page]);
+
+    // Validar sesión al cargar la app y enviar evento al cargar perfil
+    useEffect(() => {
         const fetchUser = async () => {
             if (token) {
                 try {
