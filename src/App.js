@@ -101,6 +101,16 @@ function App() {
             <header className="header" style={{ display: 'flex', alignItems: 'center' }}>
                 <img src="/favicon.ico" alt="favicon" style={{ height: 28, width: 28, marginLeft: 14, marginRight: 18, borderRadius: 6, boxShadow: '0 1px 4px #2222' }} />
                 <HeaderExtras />
+                {user && (
+                    <button onClick={() => {
+                        setUser(null);
+                        setToken('');
+                        localStorage.removeItem('token');
+                        goTo('home');
+                    }} style={{ marginLeft: 'auto', marginRight: 16, padding: '6px 16px', borderRadius: 6, border: 'none', background: '#e74c3c', color: 'white', fontWeight: 600, cursor: 'pointer' }}>
+                        Cerrar sesión
+                    </button>
+                )}
             </header>
             {/* Sidebar: mostrar siempre si hay usuario logueado */}
             {user && (
