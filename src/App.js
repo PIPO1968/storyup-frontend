@@ -223,7 +223,7 @@ function App() {
                                 </div>
                             </div>
                         </div>
-                        <div className="block" style={{ width: 'calc(100% - 32px)', margin: '32px auto 0 auto', padding: '48px 32px', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box', minWidth: 320, maxWidth: 1400 }}>
+                        <div className="block" style={{ width: 'calc(100% - 16px)', margin: '32px 0 0 auto', padding: '48px 32px', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box', minWidth: 320, maxWidth: 1400 }}>
                             <h2 style={{ textAlign: 'center' }}>Bloque inferior</h2>
                             <div style={{ textAlign: 'center' }}>
                                 <p>Este es el bloque inferior, ocupa el ancho de los dos bloques superiores y tiene la misma separación lateral.</p>
