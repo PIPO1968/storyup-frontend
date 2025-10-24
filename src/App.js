@@ -50,55 +50,109 @@ function App() {
             }
         } catch { }
     };
-
-    // Función general para enviar cualquier acción/evento
-    const sendEvent = async (token, type, data) => {
-        if (!token) return;
-        await fetch(process.env.REACT_APP_API_URL + '/event', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify({ type, data })
-        });
-        await refreshToken(); // Refresca el token tras cada acción
-    };
-    const [page, setPage] = useState('home');
-    const [user, setUser] = useState(null);
-    const [profileForm, setProfileForm] = useState({ nombre: '', nick: '', curso: '' });
-    const [token, setToken] = useState(getCookie('token') || '');
-
-    // Navegación global
-    const goTo = (newPage) => {
-        setPage(newPage);
-        // Enviar evento de actividad cada vez que navega
-        sendEvent(token, 'navigate', { page: newPage });
-    };
-
-    // Guardar token y usuario tras login y navegar a perfil
-    const handleLogin = (data) => {
-        if (data.token && data.user) {
-            setToken(data.token);
-            setCookie('token', data.token, 7);
-            setUser({
-                nombre: data.user.nombre || '-',
-                apellido: data.user.apellido || '-',
-                nick: data.user.nick || '-',
-                email: data.user.email || '-',
-                tipoUsuario: data.user.tipoUsuario || '-',
-                tipoCentro: data.user.tipoCentro || '-',
-                nombreCentro: data.user.nombreCentro || '-',
-                curso: data.user.curso || '-',
-            });
-            setProfileForm({
-                nombre: data.user.nombre || '',
-                nick: data.user.nick || '',
-                curso: data.user.curso || ''
-            });
-            goTo('profile');
-        }
-    };
+    // ...existing code...
+    // El return debe ir aquí, fuera de cualquier función
+    return (
+        <div className="main-container" style={{ width: '100%', margin: 0, padding: 0 }}>
+            {/* Header fijo */}
+            <header className="header" style={{ display: 'flex', alignItems: 'center' }}>
+                <img src="/favicon.ico" alt="favicon" style={{ height: 28, width: 28, marginLeft: 14, marginRight: 18, borderRadius: 6, boxShadow: '0 1px 4px #2222' }} />
+                <HeaderExtras />
+                {user && (
+                    <button
+                        onClick={() => {
+                            setUser(null);
+                            setToken('');
+                            setCookie('token', '', -1); // Eliminar cookie
+                            goTo('home');
+                        }}
+                        style={{ marginLeft: 'auto', marginRight: 16, padding: '6px 16px', borderRadius: 6, border: 'none', background: '#e74c3c', color: 'white', fontWeight: 600, cursor: 'pointer' }}
+                    >
+                        Cerrar sesión
+                    </button>
+                )}
+            </header>
+            {/* Sidebar: mostrar siempre si hay usuario logueado */}
+            {user && (
+                <nav className="sidebar" style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                    <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('home')}>Historias</a>
+                    <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('create')}>Crea tu Historia</a>
+                    <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('news')}>Noticias</a>
+                    <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('contests')}>Concursos</a>
+                    <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('stats')}>Estadísticas</a>
+                    <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('trophies')}>Trofeos</a>
+                    <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('learn')}>Aprende con Pipo</a>
+                    <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('profile')}>Perfil</a>
+                </nav>
+            )}
+            <div className="page-content">
+                {!user ? (
+                    <div style={{ display: 'flex', gap: 40, alignItems: 'center', justifyContent: 'center', marginBottom: 40 }}>
+                        <div style={{ flex: 1, minWidth: 320, maxWidth: 420 }}>
+                            {sessionExpired && (
+                                <div style={{ color: 'red', marginBottom: 12, fontWeight: 600 }}>
+                                    Tu sesión ha expirado. Por favor, inicia sesión de nuevo.
+                                </div>
+                            )}
+                            <AuthPage onLogin={handleLogin} goTo={goTo} />
+                        </div>
+                        <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+                            <img src="/logo-grande.png.png" alt="Logo grande" style={{ maxWidth: 320, width: '100%', borderRadius: 18, boxShadow: '0 4px 24px #2222' }} />
+                        </div>
+                    </div>
+                ) : (
+                    <>
+                        <div style={{ width: '100%', padding: '48px 0 0 0', boxSizing: 'border-box', background: 'transparent' }}>
+                            <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'center', minHeight: 320, gap: '32px', boxSizing: 'border-box', width: '100%', margin: '0 auto' }}>
+                                <div className="block" style={{ width: '50%', minWidth: 320, textAlign: 'left', padding: '48px 0 48px 24px', marginLeft: '32px', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
+                                    <h2>Datos personales</h2>
+                                    <div style={{ maxWidth: 340 }}>
+                                        <p><b>Nombre:</b> {user.nombre ? user.nombre : '-'}</p>
+                                        <p><b>Nick:</b> {user.nick ? user.nick : '-'}</p>
+                                        <p><b>Curso:</b> {user.curso ? user.curso : '-'}</p>
+                                        <p><b>Email:</b> {user.email ? user.email : '-'}</p>
+                                        <p><b>Tipo de usuario:</b> {user.tipoUsuario ? user.tipoUsuario : '-'}</p>
+                                        <p><b>Centro:</b> {user.tipoCentro ? user.tipoCentro : '-'} - {user.nombreCentro ? user.nombreCentro : '-'}</p>
+                                    </div>
+                                </div>
+                                <div className="block" style={{ width: '50%', minWidth: 320, textAlign: 'left', padding: '48px 24px 48px 0', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
+                                    <h2 style={{ textAlign: 'center' }}>Trofeos conseguidos</h2>
+                                    <div style={{ maxWidth: 340, margin: '0 auto', textAlign: 'center' }}>
+                                        <p>No tienes trofeos aún.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="block" style={{ width: 'calc(100% - 16px)', margin: '32px 0 0 auto', padding: '48px 32px', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box', minWidth: 320, maxWidth: 1400 }}>
+                                <h2 style={{ textAlign: 'center' }}>Chat</h2>
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+                                    <div style={{ width: '100%', maxWidth: 700, height: 260, background: '#f3f6fa', borderRadius: 12, marginBottom: 24, overflowY: 'auto', padding: 16, boxShadow: '0 1px 6px #2221' }}>
+                                        {/* Aquí se mostrarán los mensajes del chat */}
+                                        <div style={{ color: '#888', textAlign: 'center', marginTop: 80 }}>
+                                            No hay mensajes aún.
+                                        </div>
+                                    </div>
+                                    <form style={{ display: 'flex', width: '100%', maxWidth: 700 }} onSubmit={e => e.preventDefault()}>
+                                        <input type="text" placeholder="Escribe tu mensaje..." style={{ flex: 1, padding: '12px 16px', borderRadius: 8, border: '1px solid #dbe2ea', fontSize: 16, marginRight: 12 }} />
+                                        <button type="submit" style={{ padding: '12px 24px', borderRadius: 8, border: 'none', background: '#3949ab', color: '#fff', fontWeight: 600, fontSize: 16, cursor: 'pointer' }}>Enviar</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'center', minHeight: 220, gap: '32px', boxSizing: 'border-box', width: '100%', margin: '32px auto 0 auto' }}>
+                                <div className="block" style={{ width: '50%', minWidth: 320, textAlign: 'center', padding: '48px 0', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
+                                    <h2>Bloque extra 1</h2>
+                                    <p>Contenido del bloque extra 1.</p>
+                                </div>
+                                <div className="block" style={{ width: '50%', minWidth: 320, textAlign: 'center', padding: '48px 0', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
+                                    <h2>Bloque extra 2</h2>
+                                    <p>Contenido del bloque extra 2.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )}
+            </div>
+        </div>
+    );
 
     // Validar sesión al cargar la app
     const [sessionExpired, setSessionExpired] = useState(false);
