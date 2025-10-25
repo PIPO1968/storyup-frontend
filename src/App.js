@@ -13,6 +13,8 @@ function setCookie(name, value, days = 7) {
     document.cookie = name + '=' + (value || '') + expires + '; path=/';
 }
 
+export default App;
+
 function getCookie(name) {
     const nameEQ = name + '=';
     const ca = document.cookie.split(';');
