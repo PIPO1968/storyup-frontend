@@ -52,6 +52,15 @@ function App() {
                             nombreCentro: data.nombreCentro || '-'
                         });
                         setSessionExpired(false);
+                        // Enviar evento de actividad al backend para marcar online
+                        await fetch(process.env.REACT_APP_API_URL + '/event', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + token
+                            },
+                            body: JSON.stringify({ type: 'active', data: { page: 'perfil' } })
+                        });
                     } else if (res.status === 401 || res.status === 403) {
                         setUser(null);
                         setToken('');
@@ -129,6 +138,39 @@ function App() {
                                         <p><b>Email:</b> {user.email ? user.email : '-'}</p>
                                         <p><b>Tipo de usuario:</b> {user.tipoUsuario ? user.tipoUsuario : '-'}</p>
                                         <p><b>Centro:</b> {user.tipoCentro ? user.tipoCentro : '-'} - {user.nombreCentro ? user.nombreCentro : '-'}</p>
+                                        {/* Subidor de avatar */}
+                                        <form
+                                            onSubmit={async (e) => {
+                                                e.preventDefault();
+                                                const fileInput = e.target.elements.avatar;
+                                                if (!fileInput.files.length) return;
+                                                const formData = new FormData();
+                                                formData.append('avatar', fileInput.files[0]);
+                                                const res = await fetch(process.env.REACT_APP_API_URL + '/me/avatar', {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Authorization': 'Bearer ' + token
+                                                    },
+                                                    body: formData
+                                                });
+                                                if (res.ok) {
+                                                    const data = await res.json();
+                                                    setUser(u => ({ ...u, avatar: data.avatarUrl }));
+                                                } else {
+                                                    alert('Error al subir el avatar');
+                                                }
+                                            }}
+                                            style={{ marginTop: 16 }}
+                                        >
+                                            <label style={{ fontWeight: 500 }}>Avatar:</label><br />
+                                            <input type="file" name="avatar" accept="image/*" style={{ marginBottom: 8 }} />
+                                            <button type="submit" style={{ padding: '6px 16px', borderRadius: 6, border: 'none', background: '#3949ab', color: '#fff', fontWeight: 600, cursor: 'pointer' }}>Subir avatar</button>
+                                            {user.avatar && (
+                                                <div style={{ marginTop: 12 }}>
+                                                    <img src={user.avatar} alt="Avatar" style={{ width: 80, height: 80, borderRadius: '50%', objectFit: 'cover', boxShadow: '0 1px 6px #2222' }} />
+                                                </div>
+                                            )}
+                                        </form>
                                     </div>
                                 </div>
                                 <div className="block" style={{ width: '50%', minWidth: 320, textAlign: 'left', padding: '48px 24px 48px 0', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
