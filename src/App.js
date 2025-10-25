@@ -105,6 +105,17 @@ function App() {
                     </div>
                 ) : (
                     <div>
+                        {/* Sidebar: mostrar siempre si hay usuario logueado */}
+                        <nav className="sidebar" style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '24px 0' }}>
+                            <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('home')}>Historias</a>
+                            <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('create')}>Crea tu Historia</a>
+                            <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('news')}>Noticias</a>
+                            <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('contests')}>Concursos</a>
+                            <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('stats')}>Estadísticas</a>
+                            <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('trophies')}>Trofeos</a>
+                            <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('learn')}>Aprende con Pipo</a>
+                            <a href="#" style={{ margin: '0 16px' }} onClick={() => goTo('profile')}>Perfil</a>
+                        </nav>
                         <div style={{ width: '100%', padding: '48px 0 0 0', boxSizing: 'border-box', background: 'transparent' }}>
                             <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'center', minHeight: 320, gap: '32px', boxSizing: 'border-box', width: '100%', margin: '0 auto' }}>
                                 <div className="block" style={{ width: '50%', minWidth: 320, textAlign: 'left', padding: '48px 0 48px 24px', marginLeft: '32px', background: '#fff', borderRadius: 18, boxShadow: '0 2px 16px #2221', boxSizing: 'border-box' }}>
@@ -157,5 +168,3 @@ function App() {
         </div>
     );
 }
-
-export default App;
